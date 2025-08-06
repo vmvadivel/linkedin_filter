@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LinkedIn Filter Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h1>LinkedIn Filter</h1>
+
+  <div class="setting-section">
+    <label for="apiKey">API Key:</label>
+    <div class="api-key-section">
+      <input type="password" id="apiKey" placeholder="Enter your API Key">
+      <button id="saveButton">Save</button>
+    </div>
+  </div>
+
+  <div class="setting-section">
+    <label for="filterMode">Filter Mode:</label>
+    <select id="filterMode">
+      <option value="blur">Blur Mode</option>
+      <option value="vanish">Vanish Mode</option>
+    </select>
+  </div>
+
+  <div class="setting-section" id="cringeCategories">
+    </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
