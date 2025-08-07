@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       // A simple regex check for a Groq API key format (starts with gsk_ followed by 29 characters)
       // You can adjust this regex based on your chosen API provider
-      const groqKeyRegex = /^gsk_[a-zA-Z0-9]{29}$/;
+      const groqKeyRegex = /^gsk_[a-zA-Z0-9]+$/;
       if (!groqKeyRegex.test(apiKey)) {
         errorMessage.textContent = 'Invalid API Key format.';
         errorMessage.style.display = 'block';
