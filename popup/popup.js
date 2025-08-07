@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "Overly emotional/clickbait stories",
       "Generic motivational quotes",
       "Non-tech political/social commentary",
-      "Purely personal content",
+      "Purely personal content without a professional context",
       "Engagement bait (e.g., 'Comment interested')",
       "Generalized or redundant content",
       "Brand promotional content/Ads",
