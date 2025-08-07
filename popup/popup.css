@@ -1,73 +1,83 @@
 body {
     width: 300px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 15px;
-    background-color: #f7f7f7; /* Light grey background */
+    background-color: #f7f7f7;
     color: #333;
   }
   
   h1 {
-    font-size: 1.3em; /* Slightly larger heading */
+    font-size: 1.3em;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     margin-top: 0;
-    margin-bottom: 15px; /* More space below heading */
-    color: #2c3e50; /* Darker heading color */
+    margin-bottom: 15px;
+    color: #2c3e50;
   }
   
   .setting-section {
-    margin-bottom: 20px; /* Increased spacing between sections */
+    margin-bottom: 20px;
   }
   
   label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px; /* More space below labels */
+    margin-bottom: 8px;
     color: #555;
   }
   
-  input [type="password"],
+  /* Updated styles for input and select to match height and align */
+  input[type="password"],
   select {
-    width: calc(100% - 18px); /* Adjust width for padding and border */
+    width: 100%; /* Set width to 100% and let Flexbox handle alignment */
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 5px; /* Small space below input/select */
+    height: 36px; /* Explicitly set height to match the button */
   }
   
   .api-key-section {
     display: flex;
-    gap: 8px; /* More space between input and button */
-    align-items: center; /* Vertically align input and button */
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .api-key-section input[type="password"] {
+    flex-grow: 1; /* Make the input field take up the available space */
   }
   
   #saveButton {
-    background-color: #007bff; /* Bootstrap-like blue */
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 8px 15px; /* Adjusted button padding */
+    padding: 8px 15px;
     border-radius: 4px;
     cursor: pointer;
+    height: 36px; /* Explicitly set height to match the input */
     flex-shrink: 0;
-    font-weight: 500; /* Slightly bolder text */
+    font-weight: 500;
   }
   
   #saveButton:hover {
     background-color: #0056b3;
   }
   
-  #cringeCategories div {
-    margin-bottom: 10px; /* More spacing between category checkboxes */
-  }
-  
-  #cringeCategories input [type="checkbox"] {
-    margin-right: 8px;
-    vertical-align: middle; /* Align checkbox with text */
-  }
-  
-  #cringeCategories label {
-    display: inline; /* Display label on the same line as checkbox */
-    font-weight: normal; /* Reset label font weight */
-    vertical-align: middle; /* Align label with checkbox */
-  }
+  /* REVISED SECTION FOR CHECKBOX ALIGNMENT */
+#cringeCategories div {
+  margin-bottom: 10px;
+  display: flex; /* Use flexbox for perfect vertical alignment */
+  align-items: center; /* Vertically align items in the container */
+}
+
+#cringeCategories input[type="checkbox"] {
+  margin: 0; /* Reset all margin */
+  margin-right: 8px; /* Add spacing to the right */
+  flex-shrink: 0; /* Prevent the checkbox from shrinking */
+}
+
+#cringeCategories label {
+  line-height: normal; /* Let the browser determine the natural line height */
+  font-weight: normal;
+  margin: 0; /* Reset all margin for alignment */
+}
