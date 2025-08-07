@@ -1,59 +1,73 @@
 body {
     width: 300px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
     padding: 15px;
-    background-color: #f4f2ee;
+    background-color: #f7f7f7; /* Light grey background */
     color: #333;
   }
   
   h1 {
-    font-size: 1.2em;
-    border-bottom: 1px solid #ccc;
+    font-size: 1.3em; /* Slightly larger heading */
+    border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     margin-top: 0;
+    margin-bottom: 15px; /* More space below heading */
+    color: #2c3e50; /* Darker heading color */
   }
   
   .setting-section {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased spacing between sections */
   }
   
   label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* More space below labels */
+    color: #555;
   }
   
-  input[type="password"], select {
-    width: 100%;
+  input [type="password"],
+  select {
+    width: calc(100% - 18px); /* Adjust width for padding and border */
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-bottom: 5px; /* Small space below input/select */
   }
   
   .api-key-section {
     display: flex;
-    gap: 5px;
+    gap: 8px; /* More space between input and button */
+    align-items: center; /* Vertically align input and button */
   }
   
   #saveButton {
-    background-color: #0077b5;
+    background-color: #007bff; /* Bootstrap-like blue */
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 8px 15px; /* Adjusted button padding */
     border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
+    font-weight: 500; /* Slightly bolder text */
   }
   
   #saveButton:hover {
-    background-color: #005582;
+    background-color: #0056b3;
   }
   
   #cringeCategories div {
-    margin-bottom: 8px;
+    margin-bottom: 10px; /* More spacing between category checkboxes */
   }
   
-  #cringeCategories input {
-    margin-right: 5px;
+  #cringeCategories input [type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle; /* Align checkbox with text */
+  }
+  
+  #cringeCategories label {
+    display: inline; /* Display label on the same line as checkbox */
+    font-weight: normal; /* Reset label font weight */
+    vertical-align: middle; /* Align label with checkbox */
   }
