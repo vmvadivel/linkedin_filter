@@ -67,4 +67,7 @@ function filterPost(postElement, isCringe) {
   const feedContainer = document.querySelector('.scaffold-layout__main');
   if (feedContainer) {
     observer.observe(feedContainer, { childList: true, subtree: true });
+
+    // Analyze all existing posts at page load
+    document.querySelectorAll('.feed-shared-update-v2').forEach(analyzePost);
   }
