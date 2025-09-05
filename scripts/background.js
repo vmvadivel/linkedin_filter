@@ -1,6 +1,9 @@
+console.log("Background loaded");
+
 // Listen for messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "analyzePost") {
+      console.log("Background received analyzePost");
       // Retrieve API key and user settings from storage
       chrome.storage.local.get(['apiKey', 'enabledCategories'], async (data) => {
         const apiKey = data.apiKey;
@@ -17,10 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         Post: "${request.postText}"`;
   
         try {
-          // This is a placeholder for an AI API call. You must replace this with the
-          // actual code for your chosen AI model (e.g., Groq, OpenAI, Gemini).
-          // Example for Groq:
-          /*
+          // --- REAL API CALL TO GROQ ---
           const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -28,23 +28,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              model: "mixtral-8x7b-32768",
+              model: "gemma2-9b-it", // Using the recommended model
               messages: [{ role: "user", content: prompt }]
             })
           });
+  
           const result = await response.json();
-          const aiResponse = result.choices[0].message.content;
-          const parsedResponse = JSON.parse(aiResponse);
-          */
           
-          // --- For now, let's use a dummy response to make it functional ---
-          // In a real-world scenario, the code above would be uncommented and used.
-          // For testing, this dummy response will simulate an AI response.
-          const isCringe = request.postText.toLowerCase().includes("tag 3 people");
-          sendResponse({ isCringe: isCringe });
+          // Extract the content from the model's response
+          const aiResponse = result.choices[0].message.content;
+          
+          // Parse the JSON response from the model
+          const parsedResponse = JSON.parse(aiResponse);
+          
+          // Send the result back to the content script
+          sendResponse({ isCringe: parsedResponse.isCringe });
   
         } catch (error) {
           console.error("AI API Error:", error);
+          // Fallback to not filtering the post if an error occurs
           sendResponse({ isCringe: false });
         }
       });
