@@ -1,6 +1,6 @@
 console.log("[LinkedInFilter] Content script loaded");
 
-console.log("[LinkedInFilter] feedContainer found at top?", !!document.querySelector('.scaffold-layout__main'));
+console.log("[LinkedInFilter] feedContainer found at top?", !!document.querySelector('#voyager-feed'));
 
 
 
@@ -87,7 +87,7 @@ function filterPost(postElement, isCringe) {
   } */
 
     function waitForFeedContainer(attempts = 15) {
-      const feedContainer = document.querySelector('.scaffold-layout__main');
+      const feedContainer = document.querySelector('#voyager-feed');
       if (feedContainer) {
           console.log("[LinkedInFilter] feedContainer found; proceeding with observer and post analysis.");
           observer.observe(feedContainer, { childList: true, subtree: true });
