@@ -1,4 +1,9 @@
 console.log("[LinkedInFilter] Content script loaded");
+
+console.log("[LinkedInFilter] feedContainer found at top?", !!document.querySelector('.scaffold-layout__main'));
+
+
+
 // Function to handle the filtering of a post
 function filterPost(postElement, isCringe) {
     if (isCringe) {
@@ -65,7 +70,7 @@ function filterPost(postElement, isCringe) {
   });
   
   // Start observing the LinkedIn feed container for changes
-  const feedContainer = document.querySelector('.scaffold-layout__main');
+ /*  const feedContainer = document.querySelector('.scaffold-layout__main');
   if (feedContainer) {
     observer.observe(feedContainer, { childList: true, subtree: true });
 
@@ -79,4 +84,27 @@ function filterPost(postElement, isCringe) {
 
     // Analyze all existing posts at page load
     //document.querySelectorAll('.feed-shared-update-v2').forEach(analyzePost);
+  } */
+
+    function waitForFeedContainer(attempts = 15) {
+      const feedContainer = document.querySelector('.scaffold-layout__main');
+      if (feedContainer) {
+          console.log("[LinkedInFilter] feedContainer found; proceeding with observer and post analysis.");
+          observer.observe(feedContainer, { childList: true, subtree: true });
+          const posts = document.querySelectorAll('.feed-shared-update-v2');
+          console.log("[LinkedInFilter] Posts found at startup:", posts.length);
+          posts.forEach(post => {
+              console.log("[LinkedInFilter] About to analyze post:", post);
+              analyzePost(post);
+          });
+      } else if (attempts > 0) {
+          console.log("[LinkedInFilter] feedContainer not found. Retrying...");
+          setTimeout(() => waitForFeedContainer(attempts - 1), 500);
+      } else {
+          console.warn("[LinkedInFilter] feedContainer not found after multiple retries.");
+      }
   }
+  
+  // Call after all other function/observer definitions:
+  waitForFeedContainer();
+  
