@@ -3,7 +3,7 @@ console.log("Background loaded");
 // Listen for messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "analyzePost") {
-      console.log("Background received analyzePost");
+      console.log("[LinkedInFilter] Background received analyzePost");
       // Retrieve API key and user settings from storage
       chrome.storage.local.get(['apiKey', 'enabledCategories'], async (data) => {
         const apiKey = data.apiKey;

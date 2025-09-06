@@ -1,4 +1,4 @@
-console.log("Content script loaded");
+console.log("[LinkedInFilter] Content script loaded");
 // Function to handle the filtering of a post
 function filterPost(postElement, isCringe) {
     if (isCringe) {
@@ -40,7 +40,7 @@ function filterPost(postElement, isCringe) {
   // Function to extract text and send to background script
   function analyzePost(postElement) {
     const postText = postElement.textContent;
-    console.log("Posting to background");
+    console.log("[LinkedInFilter] Posting to background");
     chrome.runtime.sendMessage({ action: "analyzePost", postText }, (response) => {
       if (response && response.isCringe) {
         filterPost(postElement, true);
