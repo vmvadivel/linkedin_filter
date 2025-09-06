@@ -39,12 +39,13 @@ function filterPost(postElement, isCringe) {
   
   // Function to extract text and send to background script
   function analyzePost(postElement) {
+    console.log("[LinkedInFilter] Calling analyzePost");
     const postText = postElement.textContent;
-    console.log("[LinkedInFilter] Posting to background");
+    console.log("[LinkedInFilter] Posting to background", postText);
     chrome.runtime.sendMessage({ action: "analyzePost", postText }, (response) => {
-      if (response && response.isCringe) {
-        filterPost(postElement, true);
-      }
+        if (response && response.isCringe) {
+            filterPost(postElement, true);
+        }
     });
   }
   
@@ -68,6 +69,14 @@ function filterPost(postElement, isCringe) {
   if (feedContainer) {
     observer.observe(feedContainer, { childList: true, subtree: true });
 
+    // Add this logging for startup posts:
+    const posts = document.querySelectorAll('.feed-shared-update-v2');
+    console.log("[LinkedInFilter] Posts found at startup:", posts.length);
+    posts.forEach(post => {
+        console.log("[LinkedInFilter] About to analyze post:", post);
+        analyzePost(post);
+    });
+
     // Analyze all existing posts at page load
-    document.querySelectorAll('.feed-shared-update-v2').forEach(analyzePost);
+    //document.querySelectorAll('.feed-shared-update-v2').forEach(analyzePost);
   }
