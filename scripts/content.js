@@ -49,7 +49,7 @@
     
             // Message
             const msg = document.createElement('div');
-            msg.innerText = 'Blurred by LinkedIn Filter';
+            msg.innerText = 'Blurred by Feed Refiner';
             msg.style.cssText = `
               color: #fff;
               font-size: 1.08em;

@@ -5,16 +5,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // Retrieve API key and user settings from storage
       chrome.storage.local.get(['apiKey', 'enabledCategories'], async (data) => {
           const apiKey = data.apiKey;
-          const enabledCategories = data.enabledCategories || [];
+          
+          const enabledCategoriesValues = (data.enabledCategories || []).map(cat => cat.value);
 
-          if (!apiKey || enabledCategories.length === 0) {
+          // Now checks enabledCategoriesValues, which is the array of strings
+          if (!apiKey || enabledCategoriesValues.length === 0) {
               console.warn("API Key or cringe categories not set. Skipping analysis.");
               sendResponse({ isCringe: false });
               return;
           }
 
           // Construct the prompt for the AI model
-          const prompt = `Your sole task is to determine if a LinkedIn post is cringe. The cringe categories are: ${enabledCategories.join(', ')}. Respond with ONLY the JSON object '{"isCringe": true}' if it matches any category, or '{"isCringe": false}' if it does not. Do not include any additional text, explanation, or markdown.
+          const prompt = `Your sole task is to determine if a LinkedIn post is cringe. The cringe categories are: ${enabledCategoriesValues.join('\n')}. Respond with ONLY the JSON object '{"isCringe": true}' if it matches any category, or '{"isCringe": false}' if it does not. Do not include any additional text, explanation or markdown.
           Post to analyze: "${request.postText}"`;
 
           try {
@@ -31,7 +33,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                   })
               });
 
-              // Check for a successful HTTP response. This handles the 'Failed to fetch' error gracefully.
+              // Check for a successful HTTP response.
               if (!response.ok) {
                   const errorText = await response.text();
                   throw new Error(`Groq API Error: ${response.status} ${response.statusText} - ${errorText}`);
@@ -39,7 +41,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
               const result = await response.json();
 
-              // Check if the response contains valid data to prevent 'Cannot read properties of undefined' errors.
+              // Check if the response contains valid data to prevent errors.
               if (!result.choices || !Array.isArray(result.choices) || result.choices.length === 0) {
                   throw new Error("Groq API response did not contain the expected 'choices' array.");
               }
@@ -47,8 +49,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               // Extract the content from the model's response
               const aiResponse = result.choices[0].message.content;
 
-              // Use a regular expression to find and extract the JSON string, which handles
-              // cases where the AI adds extra text around the JSON.
+              // Use a regular expression to find and extract the JSON string.
               const jsonStringMatch = aiResponse.match(/\{.*\}/);
 
               let parsedResponse = { isCringe: false }; // Default value if parsing fails

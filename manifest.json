@@ -1,16 +1,14 @@
 {
     "manifest_version": 3,
-    "name": "LinkedIn Filter",
+    "name": "Feed Refiner",
     "version": "1.0",
-    "description": "Filters cringe content on your LinkedIn feed using an AI model.",
+    "description": "Filters out irrelevant and unprofessional content to help you focus on what matters most on LinkedIn.",
     "permissions": [
       "storage",
       "activeTab"
     ],
     "host_permissions": [
       "https://www.linkedin.com/*",
-      "https://api.openai.com/*",
-      "https://generativelanguage.googleapis.com/*",
       "https://api.groq.com/*"
     ],
     "action": {
