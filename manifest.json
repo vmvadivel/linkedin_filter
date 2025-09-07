@@ -1,32 +1,32 @@
 {
-    "manifest_version": 3,
-    "name": "Feed Refiner",
-    "version": "1.0",
-    "description": "Filters out irrelevant and unprofessional content to help you focus on what matters most on LinkedIn.",
-    "permissions": [
-      "storage",
-      "activeTab"
-    ],
-    "host_permissions": [
-      "https://www.linkedin.com/*",
-      "https://api.groq.com/*"
-    ],
-    "action": {
-      "default_popup": "popup/popup.html",
-      "default_icon": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
-      }
-    },
-    "content_scripts": [
-      {
-        "matches": ["https://www.linkedin.com/*"]
-,
-        "js": ["scripts/content.js"]
-      }
-    ],
-    "background": {
-      "service_worker": "scripts/background.js"
+  "manifest_version": 3,
+  "name": "Feed Refiner",
+  "version": "1.0",
+  "description": "Filters out irrelevant and unprofessional content to help you focus on what matters most on LinkedIn.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://api.groq.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["scripts/content.js"],
+      "css": ["styles/blur.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "scripts/background.js"
   }
+}
