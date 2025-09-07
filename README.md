@@ -41,4 +41,3 @@ This is a fun project for developers and tech enthusiasts. While it is not yet p
 
 * **Developer**: Vadivel Mohanakrishnan
 * **Project**: Feed Refiner
-* **Contact**: https://www.linkedin.com/in/vmvadivel
