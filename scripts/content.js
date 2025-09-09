@@ -46,33 +46,87 @@ function filterPost(postElement, isCringe) {
 
 // Function to check if a post is a sponsored ad
 const isPromoted = (postElement) => {
-    // Check if the post's text content includes "Promoted" or "Ad"
-    return postElement.textContent.includes('Promoted') || postElement.textContent.includes('Ad');
+  // Check if the post's text content includes "Promoted" or "Ad"
+  return postElement.textContent.includes('Promoted') || postElement.textContent.includes('Ad');
 };
+
+// ** NEW: Function to show a temporary user notification **
+function notifyUser(message, type = 'error') {
+  // Check if a notification already exists to prevent duplicates
+  if (document.querySelector('.feed-refiner-notification')) {
+      return;
+  }
+
+  const notification = document.createElement('div');
+  notification.className = `feed-refiner-notification feed-refiner-${type}`;
+  notification.innerText = message;
+
+  Object.assign(notification.style, {
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      padding: '12px 20px',
+      backgroundColor: type === 'error' ? 'red' : 'green',
+      color: 'white',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      zIndex: '99999',
+      transition: 'opacity 0.5s ease-in-out',
+      opacity: '1'
+  });
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+      notification.style.opacity = '0';
+      setTimeout(() => notification.remove(), 500);
+  }, 5000);
+}
 
 // Function to extract text and send to background script
 function analyzePost(postElement) {
-
-     // First, check if the post is promoted
+  // First, check if the post is promoted
   if (isPromoted(postElement)) {
-    filterPost(postElement, true);
-    return; // Exit the function to prevent the AI call
+      filterPost(postElement, true);
+      return;
   }
-  
+
   const postText = postElement.textContent;
   chrome.runtime.sendMessage({ action: "analyzePost", postText }, (response) => {
-    // check to handle the error gracefully
-    if (chrome.runtime.lastError) {
-        console.error("Failed to send message: " + chrome.runtime.lastError.message);
-        return; 
-      }  
-    if (response && response.isCringe) {
+      // check to handle the error gracefully
+      if (chrome.runtime.lastError) {
+          console.error("Failed to send message: " + chrome.runtime.lastError.message);
+          return;
+      }
+
+      // Check if the response contains an error from the API
+      if (response && response.error) {
+          switch (response.error) {
+              case "API_KEY_MISSING":
+                  notifyUser("Please enter your API key in the extension's settings.");
+                  break;
+              case "INVALID_API_KEY":
+                  notifyUser("Invalid Groq API key. Please check your settings.");
+                  break;
+              case "API_CALL_FAILED":
+                  notifyUser("Groq API call failed. Please try again later.");
+                  break;
+              case "NETWORK_ERROR":
+                  notifyUser("Network error. Please check your internet connection.");
+                  break;
+              default:
+                  notifyUser("An unknown error occurred.");
+          }
+          return;
+      }
+
+      if (response && response.isCringe) {
           filterPost(postElement, true);
       }
   });
 }
 
-// Use a MutationObserver to detect new posts in the feed
+// Using a MutationObserver to detect new posts in the feed
 const observer = new MutationObserver((mutations) => {
   mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
