@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "Filters out irrelevant and unprofessional content to help you focus on what matters most on LinkedIn.",
   "permissions": [
-    "storage",
-    "activeTab"
+    "storage"
   ],
   "host_permissions": [
     "https://www.linkedin.com/*",
