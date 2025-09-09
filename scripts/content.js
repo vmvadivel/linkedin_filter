@@ -44,11 +44,29 @@ function filterPost(postElement, isCringe) {
   }
 }
 
+// Function to check if a post is a sponsored ad
+const isPromoted = (postElement) => {
+    // Check if the post's text content includes "Promoted" or "Ad"
+    return postElement.textContent.includes('Promoted') || postElement.textContent.includes('Ad');
+};
+
 // Function to extract text and send to background script
 function analyzePost(postElement) {
+
+     // First, check if the post is promoted
+  if (isPromoted(postElement)) {
+    filterPost(postElement, true);
+    return; // Exit the function to prevent the AI call
+  }
+  
   const postText = postElement.textContent;
   chrome.runtime.sendMessage({ action: "analyzePost", postText }, (response) => {
-      if (response && response.isCringe) {
+    // check to handle the error gracefully
+    if (chrome.runtime.lastError) {
+        console.error("Failed to send message: " + chrome.runtime.lastError.message);
+        return; 
+      }  
+    if (response && response.isCringe) {
           filterPost(postElement, true);
       }
   });
