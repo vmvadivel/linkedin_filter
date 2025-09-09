@@ -5,19 +5,14 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h1>LinkedIn Filter</h1>
+  <h1>Feed Refiner</h1>
 
-  <div class="setting-section">
+  <div class="inline-setting-section">
     <label for="apiKey">API Key:</label>
-    <div class="api-key-section">
-      <input type="password" id="apiKey" placeholder="Enter your Groq API Key">
-      <button id="saveButton">Save</button>
-    </div>
-    <div id="messageContainer">
-      </div>
+    <input type="password" id="apiKey" placeholder="Enter your Groq API Key">
   </div>
 
-  <div class="setting-section">
+  <div class="inline-setting-section">
     <label for="filterMode">Filter Mode:</label>
     <select id="filterMode">
       <option value="blur">Blur Mode</option>
@@ -27,6 +22,11 @@
 
   <div class="setting-section" id="cringeCategories">
     </div>
+
+  <div id="statusContainer">
+    <button id="saveButton">Save Settings</button>
+    <div id="messageContainer"></div>
+  </div>
 
   <script src="popup.js"></script>
 </body>
