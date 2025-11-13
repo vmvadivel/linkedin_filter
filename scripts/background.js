@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "gemma2-9b-it",
+                        model: "llama-3.1-8b-instant",
                         messages: [{ role: "user", content: prompt }]
                     })
                 });
